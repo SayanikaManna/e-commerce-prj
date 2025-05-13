@@ -1,0 +1,209 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping Cart - StyleHub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🛒 Your Cart</h1>
+    <a href="index.html">← Back to Home</a>
+  </header>
+
+  <main>
+    <div id="cart-items" class="cart-items"></div>
+    <div id="cart-total" class="cart-total"></div>
+  </main>
+
+  <script>
+    // Load cart from localStorage
+    document.addEventListener("DOMContentLoaded", () => {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const cartContainer = document.getElementById("cart-items");
+      const totalContainer = document.getElementById("cart-total");
+
+      if (cart.length === 0) {
+        cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+        return;
+      }
+
+      let total = 0;
+      cartContainer.innerHTML = "";
+
+      cart.forEach(product => {
+        const item = document.createElement("div");
+        item.classList.add("cart-item");
+        item.innerHTML = `
+          <img src="${product.image}" alt="${product.name}" width="80">
+          <div>
+            <h3>${product.name}</h3>
+            <p>Price: $${product.price.toFixed(2)}</p>
+            <p>Rating: ${product.rating} ⭐</p>
+            <p>Quantity: ${product.qty}</p>
+          </div>
+        `;
+        total += product.price * product.qty;
+        cartContainer.appendChild(item);
+      });
+
+      totalContainer.innerHTML = `<h2>Total: $${total.toFixed(2)}</h2>`;
+    });
+  </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shopping Cart - StyleHub</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+    }
+
+    header {
+      background-color: #222;
+      color: #fff;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 1rem;
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      margin-right: 1rem;
+      border-radius: 8px;
+    }
+
+    .cart-item div {
+      flex-grow: 1;
+    }
+
+    .cart-item h3 {
+      margin: 0;
+    }
+
+    .remove-btn {
+      background-color: #e74c3c;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .cart-total {
+      text-align: right;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    .empty {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛒 Your Cart</h1>
+    <a href="index.html">← Back to Home</a>
+  </header>
+
+  <main>
+    <div id="cart-items"></div>
+    <div id="cart-total"></div>
+  </main>
+
+  <script>
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const cartContainer = document.getElementById("cart-items");
+      const totalContainer = document.getElementById("cart-total");
+
+      cartContainer.innerHTML = "";
+      totalContainer.innerHTML = "";
+
+      if (cart.length === 0) {
+        cartContainer.innerHTML = '<p class="empty">Your cart is empty.</p>';
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((product, index) => {
+        const {
+          name = "Unnamed Product",
+          price = 0,
+          qty = 1,
+          image = "https://via.placeholder.com/100",
+          rating = "N/A"
+        } = product;
+
+        const item = document.createElement("div");
+        item.classList.add("cart-item");
+
+        item.innerHTML = `
+          <img src="${image}" alt="${name}">
+          <div>
+            <h3>${name}</h3>
+            <p>Price: $${parseFloat(price).toFixed(2)}</p>
+            <p>Rating: ${rating} ⭐</p>
+            <p>Quantity: ${qty}</p>
+            <p>Subtotal: $${(price * qty).toFixed(2)}</p>
+          </div>
+          <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+        `;
+
+        total += price * qty;
+        cartContainer.appendChild(item);
+      });
+
+      totalContainer.innerHTML = `<h2>Total: $${total.toFixed(2)}</h2>`;
+    }
+
+    function removeFromCart(index) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    document.addEventListener("DOMContentLoaded", renderCart);
+  </script>
+</body>
+</html>

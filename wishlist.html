@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wishlist - StyleHub</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="header-top">
+      <div class="logo"><h1>StyleHub</h1></div>
+      <div class="user-actions">
+        <!-- Wishlist link with dynamic item count -->
+        <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist (<span id="wishlist-count">0</span>)</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count">0</span></a>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="featured-products">
+    <h2>Your Wishlist</h2>
+    <div id="wishlist-items" class="product-grid"></div>
+  </main>
+
+  <footer><p>&copy; 2025 StyleHub</p></footer>
+
+  <script>
+    // Function to update the wishlist count and display items
+    function updateWishlistCount() {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      document.getElementById('wishlist-count').textContent = wishlist.length;
+
+      // Load the wishlist items to display them
+      const wishlistItemsContainer = document.getElementById('wishlist-items');
+      wishlistItemsContainer.innerHTML = ''; // Clear the container before adding items
+
+      if (wishlist.length === 0) {
+        wishlistItemsContainer.innerHTML = '<p>Your wishlist is empty.</p>';
+      } else {
+        wishlist.forEach((item, index) => {
+          const itemElement = document.createElement('div');
+          itemElement.classList.add('wishlist-item');
+          itemElement.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" />
+            <div class="item-info">
+              <h3>${item.name}</h3>
+              <p>${item.price}</p>
+            </div>
+            <button class="remove-btn" onclick="removeFromWishlist(${index})">Remove</button>
+          `;
+          wishlistItemsContainer.appendChild(itemElement);
+        });
+      }
+    }
+
+    // Function to remove an item from the wishlist
+    function removeFromWishlist(index) {
+      // Retrieve the current wishlist from localStorage
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+      // Remove the item at the specified index
+      wishlist.splice(index, 1);
+
+      // Update the wishlist in localStorage
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+
+      // Recalculate and update the wishlist count and items displayed
+      updateWishlistCount();
+    }
+
+    // Call the function to update the count and display items when the page loads
+    updateWishlistCount();
+  </script>
+</body>
+</html> 

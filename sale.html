@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StyleHub - Sale</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-top">
+      <div class="logo">
+        <h1>StyleHub</h1>
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Search for products..." />
+        <button><i class="fas fa-search"></i></button>
+      </div>
+      <div class="user-actions">
+        <a href="account.html"><i class="fas fa-user"></i> Account</a>
+        <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist (<span id="wishlist-count">0</span>)</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count">0</span></a>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html?category=shoes">Shoes</a></li>
+        <li><a href="products.html?category=bags">Bags</a></li>
+        <li><a href="products.html?category=handbags">Handbags</a></li>
+        <li><a href="products.html?category=sneakers">Sneakers</a></li>
+        <li><a href="products.html?category=clothes">Clothes</a></li>
+        <li><a href="products.html?category=accessories">Accessories</a></li>
+        <li><a href="sale.html" class="active">Sale</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Sale Banner -->
+  <section class="hero sale-hero">
+    <div class="hero-content">
+      <h2>🔥 Big Sale - Up to 50% Off!</h2>
+      <p>Don't miss these limited-time deals on your favorite styles</p>
+      <a href="products.html" class="btn-primary">Shop All</a>
+    </div>
+  </section>
+
+  <!-- Sale Products Section -->
+  <section class="featured-products">
+    <h2>Products on Sale</h2>
+    <div class="product-grid" id="sale-products">
+      <!-- Sale products will be inserted here via JavaScript -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Customer Service</h4>
+        <ul>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="shipping.html">Shipping & Returns</a></li>
+          <li><a href="terms.html">Terms & Conditions</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>About StyleHub</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="stores.html">Store Locator</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-pinterest"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Payment Methods</h4>
+        <div class="payment-icons">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fab fa-cc-amex"></i>
+          <i class="fab fa-cc-paypal"></i>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 StyleHub. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Update wishlist count on load
+    function updateWishlistCount() {
+      const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      document.getElementById("wishlist-count").textContent = wishlist.length;
+    }
+
+    updateWishlistCount();
+
+    // Display only sale products (assuming products are in script.js with a discount field)
+    function displaySaleProducts() {
+      const container = document.getElementById('sale-products');
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+      const saleItems = products.filter(p => p.discount && p.discount > 0);
+      if (saleItems.length === 0) {
+        container.innerHTML = "<p>No sale products available right now. Check back soon!</p>";
+        return;
+      }
+
+      container.innerHTML = saleItems.map(product => `
+        <div class="product-card">
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <div class="price">
+            <span class="old-price">$${product.price}</span>
+            <span class="new-price">$${(product.price * (1 - product.discount / 100)).toFixed(2)}</span>
+          </div>
+          <div class="rating">${'⭐'.repeat(product.rating)}${'☆'.repeat(5 - product.rating)}</div>
+          <div class="actions">
+            <button onclick="addToCart(${product.id})">Add to Cart</button>
+            <i class="fas fa-heart" onclick="toggleWishlist(${product.id})"></i>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    displaySaleProducts();
+  </script>
+</body>
+</html>

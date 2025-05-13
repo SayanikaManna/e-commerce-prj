@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Products - StyleHub</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <!-- Include same header as index.html -->
+    <div class="header-top">
+      <div class="logo"><h1>StyleHub</h1></div>
+      <div class="user-actions">
+        <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count">0</span></a>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html?category=shoes">Shoes</a></li>
+        <li><a href="products.html?category=bags">Bags</a></li>
+        <li><a href="products.html?category=handbags">Handbags</a></li>
+        <li><a href="products.html?category=sneakers">Sneakers</a></li>
+        <li><a href="products.html?category=clothes">Clothes</a></li>
+        <li><a href="products.html?category=accessories">Accessories</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="featured-products">
+    <h2>All Products</h2>
+    <div id="product-list" class="product-grid"></div>
+
+  </main>
+
+  <footer><p>&copy; 2025 StyleHub</p></footer>
+</body>
+</html>
